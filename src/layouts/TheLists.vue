@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import BaseButton from './BaseButton.vue'
+import BaseButton from '../components/BaseButton.vue'
 import { ref } from 'vue'
 
 export default {

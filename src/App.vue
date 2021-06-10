@@ -7,7 +7,7 @@
 	<main class="site-main">
 		<div class="container">
 			<transition name="fade-slide-up" leave-active-class="fade-leave-active" appear>
-				<ListList
+				<TheLists
 					:listsData="listsData"
 					:selectedList="selectedList"
 					@addList="addList"
@@ -16,7 +16,7 @@
 				/>
 			</transition>
 			<transition name="fade-slide-up" leave-active-class="fade-leave-active" appear>
-				<TaskList
+				<TheTasks
 					v-if="selectedList"
 					:selectedList="selectedList"
 					@addTask="addTask"
@@ -29,15 +29,15 @@
 </template>
 
 <script>
-import ListList from './components/ListList.vue'
-import TaskList from './components/TaskList.vue'
+import TheLists from './layouts/TheLists.vue'
+import TheTasks from './layouts/TheTasks.vue'
 import { ref, reactive } from 'vue'
 
 export default {
 	name: 'App',
 	components: {
-		ListList,
-		TaskList,
+		TheLists,
+		TheTasks,
 	},
 	setup() {
 		const listsData = reactive( [] )
