@@ -1,106 +1,36 @@
 <template>
 	<header class="site-header">
 		<div class="container">
-			<h1>stuff I need to do</h1>
+			<h1 class="site-heading">stuff I need to do</h1>
 		</div>
 	</header>
 	<main class="site-main">
 		<div class="container">
-			<transition name="fade-slide-up" leave-active-class="fade-leave-active" appear>
-				<TheLists
-					:listsData="listsData"
-					:selectedList="selectedList"
-					@addList="addList"
-					@selectList="selectList"
-					@removeList="removeList"
-				/>
-			</transition>
-			<transition name="fade-slide-up" leave-active-class="fade-leave-active" appear>
-				<TheTasks
-					v-if="selectedList"
-					:selectedList="selectedList"
-					@addTask="addTask"
-					@toggleTaskIsDone="toggleTaskIsDone"
-					@removeTask="removeTask"
-				/>
-			</transition>
+			<ListList />
+			<TaskList v-if="selectedList" />
 		</div>
 	</main>
 </template>
 
 <script>
-import TheLists from './layouts/TheLists.vue'
-import TheTasks from './layouts/TheTasks.vue'
-import { ref, reactive } from 'vue'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import ListList from './components/ListList.vue'
+import TaskList from './components/TaskList.vue'
 
 export default {
 	name: 'App',
 	components: {
-		TheLists,
-		TheTasks,
+		ListList,
+		TaskList,
 	},
 	setup() {
-		const listsData = reactive( [] )
-		const selectedList = ref( null )
+		const store = useStore()
 
-		const addList = newList => {
-			listsData.push( newList )
-			// Select last pushed list as the active one.
-			selectedList.value = listsData[ listsData.length - 1 ]
-		}
-
-		const selectList = index => selectedList.value = listsData[ index ]
-
-		const removeList = index => {
-			// If there is a list selected and its ID matches the one of the list being deleted…
-			if ( selectedList.value && selectedList.value.id === listsData[ index ].id ) {
-				// If there’s a list before the one currently being deleted…
-				if ( listsData[ index - 1 ] ) {
-					selectedList.value = listsData[ index - 1 ]
-					// Else if there’s a list after the one currently being deleted…
-				} else if ( listsData[ index + 1 ] ) {
-					selectedList.value = listsData[ index + 1 ]
-					// Else if there’s no other list around…
-				} else {
-					selectedList.value = null
-				}
-			}
-			listsData.splice( index, 1 )
-		}
-
-		const addTask = taskData => {
-			for ( const list of listsData ) {
-				if ( list.id === selectedList.value.id ) {
-					list.tasks.push( taskData )
-				}
-			}
-		}
-
-		const toggleTaskIsDone = index => {
-			for ( const list of listsData ) {
-				if ( list.id === selectedList.value.id ) {
-					list.tasks[ index ].isDone = !list.tasks[ index ].isDone
-				}
-			}
-		}
-
-		const removeTask = index => {
-			for ( const list of listsData ) {
-				if ( list.id === selectedList.value.id ) {
-					list.tasks.splice( index, 1 )
-				}
-			}
-		}
+		const selectedList = computed( () => store.getters.selectedList )
 
 		return {
-			listsData,
 			selectedList,
-			addList,
-			selectList,
-			removeList,
-			addTask,
-			toggleTaskIsDone,
-			removeTask,
 		}
 	},
 }
@@ -112,6 +42,7 @@ export default {
  */
 :root {
 	--font-main: 'Poppins', Avenir, Helvetica, Arial, sans-serif;
+
 	--color-main--lightest: #c7d2fe;
 	--color-main--lighter: #a5b4fc;
 	--color-main--light: #818cf8;
@@ -119,6 +50,7 @@ export default {
 	--color-main--dark: #4f46e5;
 	--color-main--darker: #4338ca;
 	--color-main--darkest: #3730a3;
+
 	--white: #f3f3f5;
 	--gray-050: #ededf0;
 	--gray-100: #e1e1e6;
@@ -240,11 +172,6 @@ body {
 	justify-content: center;
 }
 
-#app {
-	width: 100%;
-	height: 100%;
-}
-
 .container {
 	display: flex;
 	max-width: 52rem;
@@ -258,7 +185,7 @@ body {
 		display: block;
 	}
 
-	h1 {
+	.site-heading {
 		font-size: 6rem;
 		color: var(--color-main--dark);
 		font-weight: 900;
@@ -266,6 +193,7 @@ body {
 		white-space: nowrap;
 		display: inline-block;
 		margin-top: -2rem;
+		opacity: 0.4;
 	}
 }
 
