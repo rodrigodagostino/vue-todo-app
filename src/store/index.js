@@ -4,7 +4,9 @@ export default createStore( {
 	state() {
 		return {
 			listsData: JSON.parse( localStorage.getItem( 'listsData' ) ) || [],
-			selectedList: JSON.parse( localStorage.getItem( 'listsData' ) )[ 0 ] || null,
+			selectedList: localStorage.getItem( 'listsData' )
+				? JSON.parse( localStorage.getItem( 'listsData' ) )[ 0 ]
+				: null,
 		}
 	},
 	getters: {
