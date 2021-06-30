@@ -6,8 +6,12 @@
 	</header>
 	<main class="site-main">
 		<div class="container">
-			<ListList />
-			<TaskList v-if="selectedList" />
+			<transition name="fade-slide-up" leave-active-class="fade-leave-active" appear>
+				<ListList />
+			</transition>
+			<transition name="fade-slide-up" leave-active-class="fade-leave-active" appear mode="out-in">
+				<TaskList v-if="selectedList" :key="selectedList.id" />
+			</transition>
 		</div>
 	</main>
 </template>
