@@ -1,67 +1,65 @@
 <template>
-	<transition name="fade-slide-up" leave-active-class="fade-leave-active" appear>
-		<section class="tasks-section">
-			<header class="tasks-header">
-				<div class="tasks-header__top">
-					<h2
-						class="tasks-header__heading"
-						ref="heading"
-						@keydown.enter="confirmEditListChanges"
-						@keydown.escape="cancelEditListChanges"
-					>
-						{{ selectedList.text }}
-					</h2>
-					<div v-if="isListBeingEdited" class="tasks-header__actions">
-						<BaseButton
-							iconClasses="fas fa-check"
-							variation="text-neutral"
-							@click="confirmEditListChanges"
-						/>
-						<BaseButton
-							iconClasses="fas fa-times"
-							variation="text-neutral"
-							@click="cancelEditListChanges"
-						/>
-					</div>
-					<div v-if="!isListBeingEdited" class="tasks-header__actions">
-						<BaseButton
-							iconClasses="fas fa-pen"
-							variation="text-neutral"
-							@click="editList"
-						/>
-						<BaseButton
-							iconClasses="fas fa-trash"
-							variation="text-neutral"
-							@click="removeList"
-						/>
-					</div>
+	<section class="tasks-section">
+		<header class="tasks-header">
+			<div class="tasks-header__top">
+				<h2
+					class="tasks-header__heading"
+					ref="heading"
+					@keydown.enter="confirmEditListChanges"
+					@keydown.escape="cancelEditListChanges"
+				>
+					{{ selectedList.text }}
+				</h2>
+				<div v-if="isListBeingEdited" class="tasks-header__actions">
+					<BaseButton
+						iconClasses="fas fa-check"
+						variation="text-neutral"
+						@click="confirmEditListChanges"
+					/>
+					<BaseButton
+						iconClasses="fas fa-times"
+						variation="text-neutral"
+						@click="cancelEditListChanges"
+					/>
 				</div>
-				<div class="tasks-header__bottom">
-					<transition name="fade">
-						<p v-if="selectedList.tasks.length" class="tasks-header__subhead">
-							{{ remainingTasks }}
-						</p>
-					</transition>
+				<div v-if="!isListBeingEdited" class="tasks-header__actions">
+					<BaseButton
+						iconClasses="fas fa-pen"
+						variation="text-neutral"
+						@click="editList"
+					/>
+					<BaseButton
+						iconClasses="fas fa-trash"
+						variation="text-neutral"
+						@click="removeList"
+					/>
 				</div>
-			</header>
-			<div class="tasks-content">
-				<ul class="task-list">
-					<transition-group name="fade-slide-up" leave-active-class="fade-leave-active">
-						<TaskListItem
-							v-for="(task, index) in selectedList.tasks"
-							:key="task.id"
-							:task="task"
-							:index="index"
-						/>
-					</transition-group>
-				</ul>
-				<form @submit.prevent="addTask" class="task-add">
-					<input type="text" class="task-add__input" v-model="newTask" />
-					<BaseButton type="submit" iconClasses="fas fa-plus" variation="text-neutral" />
-				</form>
 			</div>
-		</section>
-	</transition>
+			<div class="tasks-header__bottom">
+				<transition name="fade">
+					<p v-if="selectedList.tasks.length" class="tasks-header__subhead">
+						{{ remainingTasks }}
+					</p>
+				</transition>
+			</div>
+		</header>
+		<div class="tasks-content">
+			<ul class="task-list">
+				<transition-group name="fade-slide-up" leave-active-class="fade-leave-active">
+					<TaskListItem
+						v-for="(task, index) in selectedList.tasks"
+						:key="task.id"
+						:task="task"
+						:index="index"
+					/>
+				</transition-group>
+			</ul>
+			<form @submit.prevent="addTask" class="task-add">
+				<input type="text" class="task-add__input" v-model="newTask" />
+				<BaseButton type="submit" iconClasses="fas fa-plus" variation="text-neutral" />
+			</form>
+		</div>
+	</section>
 </template>
 
 <script>
@@ -149,7 +147,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .tasks-section {
 	background-color: var(--white);
