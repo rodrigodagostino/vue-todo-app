@@ -1,41 +1,39 @@
 <template>
-	<transition name="fade-slide-up" leave-active-class="fade-leave-active" appear>
-		<section class="lists-section">
-			<header class="lists-header">
-				<h2 class="lists-header__heading">My lists</h2>
-			</header>
-			<div class="lists-content">
-				<ul class="list-list">
-					<transition-group
-						name="fade-slide-right"
-						leave-active-class="fade-leave-active"
-						tag="li"
+	<section class="lists-section">
+		<header class="lists-header">
+			<h2 class="lists-header__heading">My lists</h2>
+		</header>
+		<div class="lists-content">
+			<ul class="list-list">
+				<transition-group
+					name="fade-slide-right"
+					leave-active-class="fade-leave-active"
+					tag="li"
+				>
+					<li
+						v-for="list in listsData"
+						:key="list.id"
+						class="list-item"
+						:class="{ 'is-active': selectedList && list.id === selectedList.id }"
+						@click="selectList(list.id)"
 					>
-						<li
-							v-for="list in listsData"
-							:key="list.id"
-							class="list-item"
-							:class="{ 'is-active': selectedList && list.id === selectedList.id }"
-							@click="selectList(list.id)"
-						>
-							<span class="list-item__label">
-								{{ list.text }}
-							</span>
-						</li>
-					</transition-group>
-				</ul>
-				<form @submit.prevent="addList" class="list-add">
-					<input type="text" v-model.trim="newList" class="list-add__input" />
-					<BaseButton
-						type="submit"
-						iconClasses="fas fa-plus"
-						variation="text-dark"
-						@click="addList"
-					/>
-				</form>
-			</div>
-		</section>
-	</transition>
+						<span class="list-item__label">
+							{{ list.text }}
+						</span>
+					</li>
+				</transition-group>
+			</ul>
+			<form @submit.prevent="addList" class="list-add">
+				<input type="text" v-model.trim="newList" class="list-add__input" />
+				<BaseButton
+					type="submit"
+					iconClasses="fas fa-plus"
+					variation="text-dark"
+					@click="addList"
+				/>
+			</form>
+		</div>
+	</section>
 </template>
 
 <script>
@@ -64,10 +62,6 @@ export default {
 					},
 				} )
 				newList.value = ''
-				// Select the recently created list.
-				store.dispatch( 'selectList', {
-					listId: listsData.value[ listsData.value.length - 1 ].id,
-				} )
 			}
 		}
 
@@ -86,7 +80,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .lists-section {
 	color: var(--white);
@@ -117,7 +110,8 @@ export default {
 	transition: background-color 0.32s ease, padding 0.32s ease;
 	cursor: pointer;
 
-	& > .list-item__label {}
+	& > .list-item__label {
+	}
 
 	&.is-active {
 		font-weight: 600;
