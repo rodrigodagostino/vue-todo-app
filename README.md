@@ -1,4 +1,10 @@
-# vue-todo-app
+# Vue To-Do App
+
+## Live demo
+Deployed with [Netlify](https://v-to-do-app.netlify.app/).
+
+## Potential future features
+- Allow the user to manually sort lists and tasks.
 
 ## Project setup
 ```
