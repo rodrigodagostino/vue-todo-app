@@ -9,11 +9,23 @@
 			<transition name="fade-slide-up" leave-active-class="fade-leave-active" appear>
 				<ListList />
 			</transition>
-			<transition name="fade-slide-up" leave-active-class="fade-leave-active" appear mode="out-in">
+			<transition
+				name="fade-slide-up"
+				leave-active-class="fade-leave-active"
+				appear
+				mode="out-in"
+			>
 				<TaskList v-if="selectedList" :key="selectedList.id" />
 			</transition>
 		</div>
 	</main>
+	<footer class="site-footer">
+		<div class="container">
+			<a href="https://github.com/rodrigodagostino/vue-todo-app" target="_blank">
+				Made with <img src="@/assets/vue-logo.png" alt="Vue.js logo" /> by Rodrigo D’Agostino
+			</a>
+		</div>
+	</footer>
 </template>
 
 <script>
@@ -176,6 +188,12 @@ body {
 	justify-content: center;
 }
 
+.site {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
 .container {
 	display: flex;
 	max-width: 52rem;
@@ -207,6 +225,37 @@ body {
 		grid-template-columns: 20rem auto;
 		align-items: flex-start;
 	}
+}
+
+.site-footer {
+	font-size: 0.875rem;
+	text-align: center;
+	margin-top: auto;
+}
+
+.site-footer .container {
+	display: flex;
+	justify-content: center;
+	padding: 1rem 0;
+}
+
+.site-footer a {
+	color: var(--gray-200);
+	text-decoration: none;
+	transition: color 0.24s ease;
+}
+
+.site-footer a:focus,
+.site-footer a:hover {
+	color: var(--white);
+}
+
+.site-footer img {
+	height: 1.25rem;
+	width: auto;
+	vertical-align: middle;
+	margin: 0 0.25rem;
+	display: inline-block;
 }
 
 .fade-slide-up-enter-active {
