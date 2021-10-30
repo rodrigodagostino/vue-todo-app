@@ -62,88 +62,67 @@
 	</section>
 </template>
 
-<script>
+<script setup>
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import BaseButton from './BaseButton.vue'
 import TaskListItem from './TaskListItem.vue'
 
-export default {
-	components: {
-		BaseButton,
-		TaskListItem,
-	},
-	setup() {
-		const store = useStore()
+const store = useStore()
 
-		const selectedList = computed( () => store.getters.selectedList )
-		const heading = ref( null )
-		let headingPrevContent = null
-		const isListBeingEdited = ref( false )
-		const newTask = ref( '' )
+const selectedList = computed( () => store.getters.selectedList )
+const heading = ref( null )
+let headingPrevContent = null
+const isListBeingEdited = ref( false )
+const newTask = ref( '' )
 
-		const remainingTasks = computed( () => {
-			if ( selectedList.value ) {
-				let remaining = 0
-				for ( const task of selectedList.value.tasks ) {
-					if ( !task.isDone ) remaining++
-				}
-				return `${ remaining } task${ remaining !== 1 ? 's' : '' } remaining`
-			}
-			return null
+const remainingTasks = computed( () => {
+	if ( selectedList.value ) {
+		let remaining = 0
+		for ( const task of selectedList.value.tasks ) {
+			if ( !task.isDone ) remaining++
+		}
+		return `${ remaining } task${ remaining !== 1 ? 's' : '' } remaining`
+	}
+	return null
+} )
+
+const editList = () => {
+	headingPrevContent = heading.value.textContent
+	isListBeingEdited.value = true
+	heading.value.setAttribute( 'contenteditable', true )
+	heading.value.focus()
+}
+
+const confirmEditListChanges = () => {
+	isListBeingEdited.value = false
+	store.dispatch( 'editList', {
+		listId: selectedList.value.id,
+		listText: heading.value.textContent,
+	} )
+	heading.value.removeAttribute( 'contenteditable' )
+}
+
+const cancelEditListChanges = () => {
+	isListBeingEdited.value = false
+	heading.value.textContent = headingPrevContent
+	heading.value.removeAttribute( 'contenteditable' )
+}
+
+const removeList = () => store.dispatch( 'removeList', { listId: selectedList.value.id } )
+
+const addTask = () => {
+	if ( newTask.value !== '' ) {
+		store.dispatch( 'addTask', {
+			listId: selectedList.value.id,
+			taskData: {
+				id: new Date().getTime(),
+				text: newTask.value,
+				isDone: false,
+			},
 		} )
-
-		const editList = () => {
-			headingPrevContent = heading.value.textContent
-			isListBeingEdited.value = true
-			heading.value.setAttribute( 'contenteditable', true )
-			heading.value.focus()
-		}
-
-		const confirmEditListChanges = () => {
-			isListBeingEdited.value = false
-			store.dispatch( 'editList', {
-				listId: selectedList.value.id,
-				listText: heading.value.textContent,
-			} )
-			heading.value.removeAttribute( 'contenteditable' )
-		}
-
-		const cancelEditListChanges = () => {
-			isListBeingEdited.value = false
-			heading.value.textContent = headingPrevContent
-			heading.value.removeAttribute( 'contenteditable' )
-		}
-
-		const removeList = () => store.dispatch( 'removeList', { listId: selectedList.value.id } )
-
-		const addTask = () => {
-			if ( newTask.value !== '' ) {
-				store.dispatch( 'addTask', {
-					listId: selectedList.value.id,
-					taskData: {
-						id: new Date().getTime(),
-						text: newTask.value,
-						isDone: false,
-					},
-				} )
-				newTask.value = ''
-			}
-		}
-
-		return {
-			selectedList,
-			heading,
-			isListBeingEdited,
-			newTask,
-			remainingTasks,
-			editList,
-			confirmEditListChanges,
-			cancelEditListChanges,
-			removeList,
-			addTask,
-		}
-	},
+		newTask.value = ''
+	}
 }
 </script>
 

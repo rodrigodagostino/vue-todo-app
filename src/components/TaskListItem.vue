@@ -18,16 +18,8 @@
 			{{ task.text }}
 		</label>
 		<div v-if="isTaskBeingEdited" class="task-item__actions">
-			<BaseButton
-				iconClasses="fas fa-check"
-				variation="text-neutral"
-				@click="confirmEditTaskChanges"
-			/>
-			<BaseButton
-				iconClasses="fas fa-times"
-				variation="text-neutral"
-				@click="cancelEditTaskChanges"
-			/>
+			<BaseButton iconClasses="fas fa-check" variation="text-neutral" @click="confirmEditTaskChanges" />
+			<BaseButton iconClasses="fas fa-times" variation="text-neutral" @click="cancelEditTaskChanges" />
 		</div>
 		<div v-if="!isTaskBeingEdited" class="task-item__actions">
 			<BaseButton iconClasses="fas fa-pen" variation="text-neutral" @click="editTask" />
@@ -36,79 +28,61 @@
 	</li>
 </template>
 
-<script>
+<script setup>
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import BaseButton from '@/components/BaseButton.vue'
 
-export default {
-	components: {
-		BaseButton,
-	},
-	props: {
-		task: Object,
-		index: Number,
-	},
-	setup( props ) {
-		const store = useStore()
+const props = defineProps( {
+	task: Object,
+	index: Number,
+} )
+const store = useStore()
 
-		const selectedList = computed( () => store.getters.selectedList )
-		const label = ref( null )
-		let labelPrevContent = null
-		const checkbox = ref( null )
-		const isTaskBeingEdited = ref( false )
+const selectedList = computed( () => store.getters.selectedList )
+const label = ref( null )
+let labelPrevContent = null
+const checkbox = ref( null )
+const isTaskBeingEdited = ref( false )
 
-		const editTask = () => {
-			labelPrevContent = label.value.textContent
-			isTaskBeingEdited.value = true
-			checkbox.value.setAttribute( 'disabled', true )
-			label.value.setAttribute( 'contenteditable', true )
-			label.value.focus()
-		}
+const editTask = () => {
+	labelPrevContent = label.value.textContent
+	isTaskBeingEdited.value = true
+	checkbox.value.setAttribute( 'disabled', true )
+	label.value.setAttribute( 'contenteditable', true )
+	label.value.focus()
+}
 
-		const confirmEditTaskChanges = () => {
-			isTaskBeingEdited.value = false
-			store.dispatch( 'editTask', {
-				listId: selectedList.value.id,
-				taskId: props.task.id,
-				taskText: label.value.textContent,
-			} )
-			checkbox.value.removeAttribute( 'disabled' )
-			label.value.removeAttribute( 'contenteditable' )
-		}
+const confirmEditTaskChanges = () => {
+	isTaskBeingEdited.value = false
+	store.dispatch( 'editTask', {
+		listId: selectedList.value.id,
+		taskId: props.task.id,
+		taskText: label.value.textContent,
+	} )
+	checkbox.value.removeAttribute( 'disabled' )
+	label.value.removeAttribute( 'contenteditable' )
+}
 
-		const cancelEditTaskChanges = () => {
-			isTaskBeingEdited.value = false
-			label.value.textContent = labelPrevContent
-			checkbox.value.removeAttribute( 'disabled' )
-			label.value.removeAttribute( 'contenteditable' )
-		}
+const cancelEditTaskChanges = () => {
+	isTaskBeingEdited.value = false
+	label.value.textContent = labelPrevContent
+	checkbox.value.removeAttribute( 'disabled' )
+	label.value.removeAttribute( 'contenteditable' )
+}
 
-		const toggleTaskStatus = () => {
-			store.dispatch( 'toggleTaskStatus', {
-				listId: selectedList.value.id,
-				taskId: props.task.id,
-			} )
-		}
+const toggleTaskStatus = () => {
+	store.dispatch( 'toggleTaskStatus', {
+		listId: selectedList.value.id,
+		taskId: props.task.id,
+	} )
+}
 
-		const removeTask = () => {
-			store.dispatch( 'removeTask', {
-				listId: selectedList.value.id,
-				taskId: props.task.id,
-			} )
-		}
-
-		return {
-			label,
-			checkbox,
-			isTaskBeingEdited,
-			editTask,
-			confirmEditTaskChanges,
-			cancelEditTaskChanges,
-			removeTask,
-			toggleTaskStatus,
-		}
-	},
+const removeTask = () => {
+	store.dispatch( 'removeTask', {
+		listId: selectedList.value.id,
+		taskId: props.task.id,
+	} )
 }
 </script>
 

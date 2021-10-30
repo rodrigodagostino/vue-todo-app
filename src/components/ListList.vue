@@ -5,11 +5,7 @@
 		</header>
 		<div class="lists-content">
 			<ul class="list-list">
-				<transition-group
-					name="fade-slide-right"
-					leave-active-class="fade-leave-active"
-					tag="li"
-				>
+				<transition-group name="fade-slide-right" leave-active-class="fade-leave-active" tag="li">
 					<li
 						v-for="list in listsData"
 						:key="list.id"
@@ -25,58 +21,38 @@
 			</ul>
 			<form @submit.prevent="addList" class="list-add">
 				<input type="text" v-model.trim="newList" class="list-add__input" />
-				<BaseButton
-					type="submit"
-					iconClasses="fas fa-plus"
-					variation="text-dark"
-					@click="addList"
-				/>
+				<BaseButton type="submit" iconClasses="fas fa-plus" variation="text-dark" @click="addList" />
 			</form>
 		</div>
 	</section>
 </template>
 
-<script>
+<script setup>
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import BaseButton from './BaseButton.vue'
 
-export default {
-	components: {
-		BaseButton,
-	},
-	setup() {
-		const store = useStore()
+const store = useStore()
 
-		const listsData = computed( () => store.getters.listsData )
-		const selectedList = computed( () => store.getters.selectedList )
-		const newList = ref( '' )
+const listsData = computed( () => store.getters.listsData )
+const selectedList = computed( () => store.getters.selectedList )
+const newList = ref( '' )
 
-		const addList = () => {
-			if ( newList.value !== '' ) {
-				store.dispatch( 'addList', {
-					newList: {
-						id: new Date().getTime(),
-						text: newList.value,
-						tasks: [],
-					},
-				} )
-				newList.value = ''
-			}
-		}
+const addList = () => {
+	if ( newList.value !== '' ) {
+		store.dispatch( 'addList', {
+			newList: {
+				id: new Date().getTime(),
+				text: newList.value,
+				tasks: [],
+			},
+		} )
+		newList.value = ''
+	}
+}
 
-		const selectList = listId => {
-			store.dispatch( 'selectList', { listId } )
-		}
-
-		return {
-			listsData,
-			selectedList,
-			newList,
-			addList,
-			selectList,
-		}
-	},
+const selectList = listId => {
+	store.dispatch( 'selectList', { listId } )
 }
 </script>
 

@@ -5,73 +5,60 @@
 	</component>
 </template>
 
-<script>
-export default {
-	props: {
-		href: {
-			type: String,
-			required: false,
-			default: null,
-		},
-		target: {
-			type: String,
-			required: false,
-			default: null,
-		},
-		type: {
-			type: String,
-			required: false,
-			default: null,
-		},
-		variation: {
-			type: String,
-			required: false,
-			default: 'outline-main',
-		},
-		size: {
-			type: String,
-			required: false,
-			default: null,
-		},
-		iconClasses: {
-			type: String,
-			required: false,
-			default: null,
-		},
-		textClasses: {
-			type: String,
-			required: false,
-			default: null,
-		},
+<script setup>
+const props = defineProps( {
+	href: {
+		type: String,
+		required: false,
+		default: null,
 	},
-	computed: {
-		tag() {
-			if ( this.href ) {
-				return 'a'
-			}
-			return 'button'
-		},
-		computedType() {
-			if ( !this.type && !this.href ) {
-				return 'button'
-			}
-			return null
-		},
-		buttonClasses() {
-			return {
-				'button--fill-main': this.variation === 'fill-main',
-				'button--fill-neutral': this.variation === 'fill-neutral',
-				'button--outline-main': this.variation === 'outline-main',
-				'button--outline-neutral': this.variation === 'outline-neutral',
-				'button--text-main': this.variation === 'text-main',
-				'button--text-neutral': this.variation === 'text-neutral',
-				'button--text-dark': this.variation === 'text-dark',
-				'button--small': this.size === 'small',
-				'button--medium': this.size === 'medium',
-				'button--large': this.size === 'large',
-			}
-		},
+	target: {
+		type: String,
+		required: false,
+		default: null,
 	},
+	type: {
+		type: String,
+		required: false,
+		default: null,
+	},
+	variation: {
+		type: String,
+		required: false,
+		default: 'outline-main',
+	},
+	size: {
+		type: String,
+		required: false,
+		default: null,
+	},
+	iconClasses: {
+		type: String,
+		required: false,
+		default: null,
+	},
+	textClasses: {
+		type: String,
+		required: false,
+		default: null,
+	},
+} )
+
+const tag = props.href ? 'a' : 'button'
+
+const computedType = props.type && !props.href ? 'button' : null
+
+const buttonClasses = {
+	'button--fill-main': props.variation === 'fill-main',
+	'button--fill-neutral': props.variation === 'fill-neutral',
+	'button--outline-main': props.variation === 'outline-main',
+	'button--outline-neutral': props.variation === 'outline-neutral',
+	'button--text-main': props.variation === 'text-main',
+	'button--text-neutral': props.variation === 'text-neutral',
+	'button--text-dark': props.variation === 'text-dark',
+	'button--small': props.size === 'small',
+	'button--medium': props.size === 'medium',
+	'button--large': props.size === 'large',
 }
 </script>
 
