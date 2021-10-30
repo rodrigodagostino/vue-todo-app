@@ -39,7 +39,7 @@
 <script>
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
-import BaseButton from '../components/BaseButton.vue'
+import BaseButton from '@/components/BaseButton.vue'
 
 export default {
 	components: {
@@ -92,7 +92,7 @@ export default {
 		}
 
 		const removeTask = () => {
-			return store.dispatch( 'removeTask', {
+			store.dispatch( 'removeTask', {
 				listId: selectedList.value.id,
 				taskId: props.task.id,
 			} )
