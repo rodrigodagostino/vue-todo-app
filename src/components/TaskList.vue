@@ -85,7 +85,7 @@ const remainingTasks = computed( () => {
 		return `${ remaining } task${ remaining !== 1 ? 's' : '' } remaining`
 	}
 	return null
-} )
+})
 
 const editList = () => {
 	headingPrevContent = heading.value.textContent
@@ -99,7 +99,7 @@ const confirmEditListChanges = () => {
 	store.dispatch( 'editList', {
 		listId: selectedList.value.id,
 		listText: heading.value.textContent,
-	} )
+	})
 	heading.value.removeAttribute( 'contenteditable' )
 }
 
@@ -109,7 +109,7 @@ const cancelEditListChanges = () => {
 	heading.value.removeAttribute( 'contenteditable' )
 }
 
-const removeList = () => store.dispatch( 'removeList', { listId: selectedList.value.id } )
+const removeList = () => store.dispatch( 'removeList', { listId: selectedList.value.id })
 
 const addTask = () => {
 	if ( newTask.value !== '' ) {
@@ -120,7 +120,7 @@ const addTask = () => {
 				text: newTask.value,
 				isDone: false,
 			},
-		} )
+		})
 		newTask.value = ''
 	}
 }

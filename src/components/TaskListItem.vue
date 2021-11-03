@@ -33,10 +33,10 @@ import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import BaseButton from '@/components/BaseButton.vue'
 
-const props = defineProps( {
+const props = defineProps({
 	task: Object,
 	index: Number,
-} )
+})
 const store = useStore()
 
 const selectedList = computed( () => store.getters.selectedList )
@@ -59,7 +59,7 @@ const confirmEditTaskChanges = () => {
 		listId: selectedList.value.id,
 		taskId: props.task.id,
 		taskText: label.value.textContent,
-	} )
+	})
 	checkbox.value.removeAttribute( 'disabled' )
 	label.value.removeAttribute( 'contenteditable' )
 }
@@ -75,14 +75,14 @@ const toggleTaskStatus = () => {
 	store.dispatch( 'toggleTaskStatus', {
 		listId: selectedList.value.id,
 		taskId: props.task.id,
-	} )
+	})
 }
 
 const removeTask = () => {
 	store.dispatch( 'removeTask', {
 		listId: selectedList.value.id,
 		taskId: props.task.id,
-	} )
+	})
 }
 </script>
 

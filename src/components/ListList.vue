@@ -46,13 +46,13 @@ const addList = () => {
 				text: newList.value,
 				tasks: [],
 			},
-		} )
+		})
 		newList.value = ''
 	}
 }
 
 const selectList = listId => {
-	store.dispatch( 'selectList', { listId } )
+	store.dispatch( 'selectList', { listId })
 }
 </script>
 
