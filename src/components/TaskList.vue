@@ -3,8 +3,8 @@
     <header class="tasks-header">
       <div class="tasks-header__top">
         <h2
-          class="tasks-header__heading"
-          ref="heading"
+          class="tasks-header__title"
+          ref="title"
           @keydown.enter="confirmEditListChanges"
           @keydown.escape="cancelEditListChanges"
         >
@@ -26,7 +26,7 @@
           <BaseButton
             iconClasses="fas fa-pen"
             variation="text-neutral"
-            @click="editList"
+            @click="editListTitle"
           />
           <BaseButton
             iconClasses="fas fa-trash"
@@ -78,8 +78,8 @@ import TaskListItem from './TaskListItem.vue'
 const store = useStore()
 
 const selectedList = computed( () => store.getters.selectedList )
-const heading = ref( null )
-let headingPrevContent = null
+const title = ref( null )
+let titlePrevContent = null
 const isListBeingEdited = ref( false )
 const newTask = ref( '' )
 
@@ -94,26 +94,26 @@ const remainingTasks = computed( () => {
   return null
 })
 
-const editList = () => {
-  headingPrevContent = heading.value.textContent
+const editListTitle = () => {
+  titlePrevContent = title.value.textContent
   isListBeingEdited.value = true
-  heading.value.setAttribute( 'contenteditable', true )
-  heading.value.focus()
+  title.value.setAttribute( 'contenteditable', true )
+  title.value.focus()
 }
 
 const confirmEditListChanges = () => {
   isListBeingEdited.value = false
   store.dispatch( 'editList', {
     listId: selectedList.value.id,
-    listTitle: heading.value.textContent,
+    listTitle: title.value.textContent,
   })
-  heading.value.removeAttribute( 'contenteditable' )
+  title.value.removeAttribute( 'contenteditable' )
 }
 
 const cancelEditListChanges = () => {
   isListBeingEdited.value = false
-  heading.value.textContent = headingPrevContent
-  heading.value.removeAttribute( 'contenteditable' )
+  title.value.textContent = titlePrevContent
+  title.value.removeAttribute( 'contenteditable' )
 }
 
 const removeList = () =>
@@ -150,7 +150,7 @@ const addTask = () => {
       align-items: center;
     }
 
-    &__heading {
+    &__title {
       font-size: 2rem;
       line-height: 1;
 
