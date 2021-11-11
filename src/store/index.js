@@ -50,23 +50,33 @@ export default createStore({
         commit( 'setSelectedList', null )
         return
       }
-      const selectedListData = state.listsData.find( list => list.id === payload.listId )
+      const selectedListData = state.listsData.find( list =>
+        list.id === payload.listId,
+      )
       commit( 'setSelectedList', { selectedListData })
     },
     editList({ state, commit }, payload ) {
       const newListsData = state.listsData
-      const targetListIndex = newListsData.findIndex( list => list.id === payload.listId )
-      newListsData[ targetListIndex ].text = payload.listText
+      const targetListIndex = newListsData.findIndex( list =>
+        list.id === payload.listId,
+      )
+      newListsData[ targetListIndex ].title = payload.listTitle
       commit( 'setListsData', { newListsData })
     },
     removeList({ state, commit, dispatch }, payload ) {
       // Select the previous list (if it exists) before deleting.
-      const targetListIndex = state.listsData.findIndex( list => list.id === payload.listId )
+      const targetListIndex = state.listsData.findIndex( list =>
+        list.id === payload.listId,
+      )
       if ( state.listsData.length > 1 && targetListIndex !== 0 ) {
-        dispatch( 'selectList', { listId: state.listsData[ targetListIndex - 1 ].id })
+        dispatch( 'selectList', {
+          listId: state.listsData[ targetListIndex - 1 ].id,
+        })
         // Select the next list (if it exists) before deleting.
       } else if ( state.listsData.length > 1 && targetListIndex === 0 ) {
-        dispatch( 'selectList', { listId: state.listsData[ targetListIndex + 1 ].id })
+        dispatch( 'selectList', {
+          listId: state.listsData[ targetListIndex + 1 ].id,
+        })
         // Deselect the current list before deleting.
       } else {
         dispatch( 'selectList', null )
@@ -79,28 +89,46 @@ export default createStore({
 
     addTask({ state, commit }, payload ) {
       const newListsData = state.listsData
-      const targetListIndex = newListsData.findIndex( list => list.id === payload.listId )
+      const targetListIndex = newListsData.findIndex( list =>
+        list.id === payload.listId,
+      )
       newListsData[ targetListIndex ].tasks.push( payload.taskData )
       commit( 'setListsData', { newListsData })
     },
     editTask({ state, commit }, payload ) {
       const newListsData = state.listsData
-      const targetListIndex = newListsData.findIndex( list => list.id === payload.listId )
-      const targetTaskIndex = newListsData[ targetListIndex ].tasks.findIndex( task => task.id === payload.taskId )
-      newListsData[ targetListIndex ].tasks[ targetTaskIndex ].text = payload.taskText
+      const targetListIndex =
+        newListsData.findIndex( list => list.id === payload.listId )
+      const targetTaskIndex =
+        newListsData[ targetListIndex ].tasks.findIndex( task =>
+          task.id === payload.taskId,
+        )
+      newListsData[ targetListIndex ].tasks[ targetTaskIndex ].title =
+        payload.taskTitle
       commit( 'setListsData', { newListsData })
     },
     toggleTaskStatus({ state, commit }, payload ) {
       const newListsData = state.listsData
-      const targetListIndex = newListsData.findIndex( list => list.id === payload.listId )
-      const targetTaskIndex = newListsData[ targetListIndex ].tasks.findIndex( task => task.id === payload.taskId )
-      newListsData[ targetListIndex ].tasks[ targetTaskIndex ].isDone = !newListsData[ targetListIndex ].tasks[ targetTaskIndex ].isDone
+      const targetListIndex = newListsData.findIndex( list =>
+        list.id === payload.listId,
+      )
+      const targetTaskIndex =
+        newListsData[ targetListIndex ].tasks.findIndex( task =>
+          task.id === payload.taskId,
+        )
+      newListsData[ targetListIndex ].tasks[ targetTaskIndex ].isDone =
+        !newListsData[ targetListIndex ].tasks[ targetTaskIndex ].isDone
       commit( 'setListsData', { newListsData })
     },
     removeTask({ state, commit }, payload ) {
       const newListsData = state.listsData
-      const targetListIndex = newListsData.findIndex( list => list.id === payload.listId )
-      const targetTaskIndex = newListsData[ targetListIndex ].tasks.findIndex( task => task.id === payload.taskId )
+      const targetListIndex = newListsData.findIndex( list =>
+        list.id === payload.listId,
+      )
+      const targetTaskIndex =
+        newListsData[ targetListIndex ].tasks.findIndex( task =>
+          task.id === payload.taskId,
+        )
       newListsData[ targetListIndex ].tasks.splice( targetTaskIndex, 1 )
       commit( 'setListsData', { newListsData })
     },

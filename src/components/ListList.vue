@@ -20,7 +20,7 @@
             @click="selectList(list.id)"
           >
             <span class="list-item__label">
-              {{ list.text }}
+              {{ list.title }}
             </span>
           </li>
         </transition-group>
@@ -54,7 +54,7 @@ const addList = () => {
     store.dispatch( 'addList', {
       newList: {
         id: new Date().getTime(),
-        text: newList.value,
+        title: newList.value,
         tasks: [],
       },
     })

@@ -15,7 +15,7 @@
       @keydown.enter="confirmEditTaskChanges"
       @keydown.escape="cancelEditTaskChanges"
     >
-      {{ task.text }}
+      {{ task.title }}
     </label>
     <div v-if="isTaskBeingEdited" class="task-item__actions">
       <BaseButton
@@ -74,7 +74,7 @@ const confirmEditTaskChanges = () => {
   store.dispatch( 'editTask', {
     listId: selectedList.value.id,
     taskId: props.task.id,
-    taskText: label.value.textContent,
+    taskTitle: label.value.textContent,
   })
   checkbox.value.removeAttribute( 'disabled' )
   label.value.removeAttribute( 'contenteditable' )

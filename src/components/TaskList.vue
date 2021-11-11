@@ -8,7 +8,7 @@
           @keydown.enter="confirmEditListChanges"
           @keydown.escape="cancelEditListChanges"
         >
-          {{ selectedList.text }}
+          {{ selectedList.title }}
         </h2>
         <div v-if="isListBeingEdited" class="tasks-header__actions">
           <BaseButton
@@ -105,7 +105,7 @@ const confirmEditListChanges = () => {
   isListBeingEdited.value = false
   store.dispatch( 'editList', {
     listId: selectedList.value.id,
-    listText: heading.value.textContent,
+    listTitle: heading.value.textContent,
   })
   heading.value.removeAttribute( 'contenteditable' )
 }
@@ -125,7 +125,7 @@ const addTask = () => {
       listId: selectedList.value.id,
       taskData: {
         id: new Date().getTime(),
-        text: newTask.value,
+        title: newTask.value,
         isDone: false,
       },
     })
