@@ -44,19 +44,26 @@
       </div>
     </header>
     <div class="tasks-content">
-      <ul class="task-list">
-        <transition-group
-          name="fade-slide-up"
-          leave-active-class="fade-leave-active"
-        >
-          <TaskListItem
-            v-for="(task, index) in selectedList.tasks"
-            :key="task.id"
-            :task="task"
-            :index="index"
-          />
-        </transition-group>
-      </ul>
+      <draggable
+        class="task-list"
+        ghost-class="task-item--ghost"
+        handle=".task-item__handle"
+        tag="transition-group"
+        :component-data="{
+          tag: 'ul',
+          type: 'transition-group',
+          name: 'fade-slide-up',
+          leaveActiveClass: 'fade-leave-active',
+        }"
+        animation="200"
+        v-model="selectedList.tasks"
+        item-key="id"
+        @end="confirmEditListChanges"
+      >
+        <template #item="{ element }">
+          <TaskListItem :task="element" />
+        </template>
+      </draggable>
       <form @submit.prevent="addTask" class="task-add">
         <input type="text" class="task-add__input" v-model="newTask" />
         <BaseButton
@@ -72,6 +79,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
+import draggable from 'vuedraggable'
 import BaseButton from './BaseButton.vue'
 import TaskListItem from './TaskListItem.vue'
 
