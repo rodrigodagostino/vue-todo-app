@@ -1,10 +1,16 @@
 import { createStore } from 'vuex'
 
+const hasListData =
+  localStorage.getItem( 'listsData' ) &&
+  localStorage.getItem( 'listsData' ).charAt( 0 ) === '['
+
 export default createStore({
   state() {
     return {
-      listsData: JSON.parse( localStorage.getItem( 'listsData' ) ) || [],
-      selectedList: localStorage.getItem( 'listsData' )
+      listsData: hasListData
+        ? JSON.parse( localStorage.getItem( 'listsData' ) )
+        : [],
+      selectedList: hasListData
         ? JSON.parse( localStorage.getItem( 'listsData' ) )[ 0 ]
         : null,
     }
