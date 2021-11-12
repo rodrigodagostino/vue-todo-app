@@ -125,48 +125,48 @@ const removeTask = () => {
     background-color: var(--gray-100);
   }
 
-  .task-item__handle {
-    display: flex;
-    max-width: 1.5rem;
-    fill: var(--gray-400);
-    cursor: move;
-    transition: fill 0.24s ease;
-
-    &:focus,
-    &:hover {
-      fill: var(--color-main);
-    }
-  }
-
-  .task-item__checkbox,
-  .task-item__label {
-    cursor: pointer;
-    transition: opacity 0.32s ease;
-  }
-
-  .task-item__checkbox {
-    flex-shrink: 0;
-  }
-
-  .task-item__label {
-    font-size: 1.25rem;
-    line-height: 1.2;
-
-    &[contenteditable='true'] {
-      outline: none;
-      box-shadow: 0 2px 0 var(--color-main);
-      cursor: text;
-    }
-  }
-
   & > * + * {
     margin-left: 0.75rem;
   }
+}
 
-  .task-item__actions {
-    margin-left: auto;
-    white-space: nowrap;
+.task-item__handle {
+  display: flex;
+  max-width: 1.5rem;
+  fill: var(--gray-400);
+  cursor: move;
+  transition: fill 0.24s ease;
+
+  &:focus,
+  &:hover {
+    fill: var(--color-main);
   }
+}
+
+.task-item__checkbox,
+.task-item__label {
+  cursor: pointer;
+  transition: opacity 0.32s ease;
+}
+
+.task-item__checkbox {
+  flex-shrink: 0;
+}
+
+.task-item__label {
+  font-size: 1.25rem;
+  line-height: 1.2;
+
+  &[contenteditable='true'] {
+    outline: none;
+    box-shadow: 0 2px 0 var(--color-main);
+    cursor: text;
+  }
+}
+
+.task-item__actions {
+  margin-left: auto;
+  white-space: nowrap;
 }
 
 .task-item--done {
