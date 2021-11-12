@@ -124,10 +124,6 @@ const removeTask = () => {
   &.task-item--ghost {
     background-color: var(--gray-100);
   }
-
-  & > * + * {
-    margin-left: 0.75rem;
-  }
 }
 
 .task-item__handle {
@@ -151,11 +147,13 @@ const removeTask = () => {
 
 .task-item__checkbox {
   flex-shrink: 0;
+  margin-left: 0.5rem;
 }
 
 .task-item__label {
   font-size: 1.25rem;
   line-height: 1.2;
+  margin-left: 0.75rem;
 
   &[contenteditable='true'] {
     outline: none;
