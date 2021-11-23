@@ -15,6 +15,7 @@
     "vuex": "4.0.2"
   },
   "devDependencies": {
+    "@babel/core": "7.16.0",
     "@babel/eslint-parser": "7.16.3",
     "@vitejs/plugin-vue": "1.10.0",
     "@vue/compiler-sfc": "3.2.22",
