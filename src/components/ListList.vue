@@ -1,8 +1,5 @@
 <template>
   <section class="lists-section">
-    <header class="lists-header">
-      <h2 class="lists-header__heading">My lists</h2>
-    </header>
     <div class="lists-content">
       <draggable
         class="list-list"
@@ -95,19 +92,6 @@ const addList = () => {
 <style scoped lang="scss">
 .lists-section {
   color: var(--white);
-  padding-right: 1rem;
-
-  .lists-header {
-    padding: 1.5rem;
-
-    &__heading {
-      font-size: 2rem;
-    }
-  }
-
-  .lists-content {
-    padding: 1.5rem 1.5rem 2rem;
-  }
 }
 
 .list-list {
@@ -154,7 +138,6 @@ const addList = () => {
 
 .list-add {
   display: flex;
-  margin-top: 1rem;
 }
 
 .list-add__input {
@@ -164,6 +147,7 @@ const addList = () => {
   border: none;
   border-bottom: 2px solid var(--gray-100);
   outline: none;
+  margin-left: 2rem;
   transition: border 0.32s ease;
 
   &:focus {

@@ -92,7 +92,9 @@ html {
 *,
 *::before,
 *::after {
-  /* Inherit box-sizing to make it easier to change the property for components that leverage other behavior; see http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
+  // Inherit box-sizing to make it easier to change the property
+  // for components that leverage other behavior
+  // http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
   box-sizing: inherit;
 }
 
@@ -186,6 +188,7 @@ body {
 .site {
   display: flex;
   flex-direction: column;
+  max-width: 100%;
   min-height: 100vh;
 }
 
@@ -193,7 +196,7 @@ body {
   display: flex;
   max-width: 52rem;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 1.25rem;
   position: relative;
 }
 
@@ -203,23 +206,24 @@ body {
   }
 
   .site-heading {
-    font-size: 6rem;
-    color: var(--color-main--dark);
+    font-size: clamp(2rem, 10vw, 5.8125rem);
     font-weight: 900;
+    color: var(--color-main--dark);
     text-align: center;
+    margin-bottom: -0.5em;
     white-space: nowrap;
-    display: inline-block;
-    margin-top: -2rem;
     opacity: 0.4;
   }
 }
 
 .site-main {
   .container {
-    display: grid;
-    grid-template-columns: 20rem auto;
-    align-items: flex-start;
+    flex-direction: column;
   }
+}
+
+.lists-section + .tasks-section {
+  margin-top: 3rem;
 }
 
 .site-footer {
@@ -251,6 +255,21 @@ body {
   vertical-align: middle;
   margin: 0 0.25rem;
   display: inline-block;
+}
+
+@media screen and (min-width: 48em) {
+  .site-main {
+    .container {
+      display: grid;
+      grid-template-columns: 18rem auto;
+      grid-gap: 2rem;
+      align-items: flex-start;
+    }
+  }
+
+  .lists-section + .tasks-section {
+    margin-top: 0;
+  }
 }
 
 .fade-slide-up-enter-active {

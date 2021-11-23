@@ -197,6 +197,7 @@ const addTask = () => {
     background-color: transparent;
     border: none;
     border-bottom: 2px solid var(--gray-400);
+    margin-left: 2rem;
     outline: none;
     transition: border 0.32s ease;
 
