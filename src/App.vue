@@ -36,28 +36,15 @@
   </footer>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import ListList from './components/ListList.vue'
 import TaskList from './components/TaskList.vue'
 
-export default {
-  name: 'App',
-  components: {
-    ListList,
-    TaskList,
-  },
-  setup() {
-    const store = useStore()
+const store = useStore()
 
-    const selectedList = computed( () => store.getters.selectedList )
-
-    return {
-      selectedList,
-    }
-  },
-}
+const selectedList = computed( () => store.getters.selectedList )
 </script>
 
 <style lang="scss">
