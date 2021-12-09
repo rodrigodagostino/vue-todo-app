@@ -8,7 +8,7 @@
           @keydown.enter="confirmEditListChanges"
           @keydown.escape="cancelEditListChanges"
         >
-          {{ selectedList.title }}
+          {{ selectedListData.title }}
         </h2>
         <div v-if="isListBeingEdited" class="tasks-header__actions">
           <BaseButton
@@ -37,7 +37,7 @@
       </div>
       <div class="tasks-header__bottom">
         <transition name="fade">
-          <p v-if="selectedList.tasks.length" class="tasks-header__subhead">
+          <p v-if="selectedListData.tasks" class="tasks-header__subhead">
             {{ remainingTasks }}
           </p>
         </transition>
@@ -56,7 +56,7 @@
           leaveActiveClass: 'fade-leave-active',
         }"
         animation="200"
-        v-model="selectedList.tasks"
+        v-model="selectedListData.tasks"
         item-key="id"
         @end="confirmEditListChanges"
       >
@@ -65,7 +65,7 @@
         </template>
       </draggable>
       <form @submit.prevent="addTask" class="task-add">
-        <input type="text" class="task-add__input" v-model="newTask" />
+        <input type="text" class="task-add__input" v-model="newTaskTitle" />
         <BaseButton
           type="submit"
           iconClasses="fas fa-plus"
@@ -78,23 +78,21 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useStore } from 'vuex'
+import store from '@/store'
 import draggable from 'vuedraggable'
 import BaseButton from './BaseButton.vue'
 import TaskListItem from './TaskListItem.vue'
 
-const store = useStore()
-
-const selectedList = computed( () => store.getters.selectedList )
+const selectedListData = computed( () => store.getters.selectedListData() )
 const title = ref( null )
 let titlePrevContent = null
 const isListBeingEdited = ref( false )
-const newTask = ref( '' )
+const newTaskTitle = ref( '' )
 
 const remainingTasks = computed( () => {
-  if ( selectedList.value ) {
+  if ( selectedListData.value ) {
     let remaining = 0
-    for ( const task of selectedList.value.tasks ) {
+    for ( const task of selectedListData.value.tasks ) {
       if ( !task.isDone ) remaining++
     }
     return `${ remaining } task${ remaining !== 1 ? 's' : '' } remaining`
@@ -111,10 +109,7 @@ const editListTitle = () => {
 
 const confirmEditListChanges = () => {
   isListBeingEdited.value = false
-  store.dispatch( 'editList', {
-    listId: selectedList.value.id,
-    listTitle: title.value.textContent,
-  })
+  store.mutations.editList( selectedListData.value.id, title.value.textContent )
   title.value.removeAttribute( 'contenteditable' )
 }
 
@@ -124,20 +119,16 @@ const cancelEditListChanges = () => {
   title.value.removeAttribute( 'contenteditable' )
 }
 
-const removeList = () =>
-  store.dispatch( 'removeList', { listId: selectedList.value.id })
+const removeList = () => store.mutations.removeList( selectedListData.value.id )
 
 const addTask = () => {
-  if ( newTask.value !== '' ) {
-    store.dispatch( 'addTask', {
-      listId: selectedList.value.id,
-      taskData: {
-        id: new Date().getTime(),
-        title: newTask.value,
-        isDone: false,
-      },
+  if ( newTaskTitle.value !== '' ) {
+    store.mutations.addTask( selectedListData.value.id, {
+      id: new Date().getTime(),
+      title: newTaskTitle.value,
+      isDone: false,
     })
-    newTask.value = ''
+    newTaskTitle.value = ''
   }
 }
 </script>

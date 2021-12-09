@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "vue": "3.2.6",
-    "vuedraggable": "4.1.0",
-    "vuex": "4.0.2"
+    "vuedraggable": "4.1.0"
   },
   "devDependencies": {
     "@babel/core": "7.16.0",

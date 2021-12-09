@@ -58,16 +58,15 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useStore } from 'vuex'
+import store from '@/store'
 import BaseButton from '@/components/BaseButton.vue'
 
 const props = defineProps({
   task: Object,
   index: Number,
 })
-const store = useStore()
 
-const selectedList = computed( () => store.getters.selectedList )
+const selectedList = computed( () => store.getters.selectedListData() )
 const label = ref( null )
 let labelPrevContent = null
 const checkbox = ref( null )
@@ -83,11 +82,11 @@ const editTask = () => {
 
 const confirmEditTaskChanges = () => {
   isTaskBeingEdited.value = false
-  store.dispatch( 'editTask', {
-    listId: selectedList.value.id,
-    taskId: props.task.id,
-    taskTitle: label.value.textContent,
-  })
+  store.mutations.editTask(
+    selectedList.value.id,
+    props.task.id,
+    label.value.textContent,
+  )
   checkbox.value.removeAttribute( 'disabled' )
   label.value.removeAttribute( 'contenteditable' )
 }
@@ -99,19 +98,11 @@ const cancelEditTaskChanges = () => {
   label.value.removeAttribute( 'contenteditable' )
 }
 
-const toggleTaskStatus = () => {
-  store.dispatch( 'toggleTaskStatus', {
-    listId: selectedList.value.id,
-    taskId: props.task.id,
-  })
-}
+const toggleTaskStatus = () =>
+  store.mutations.toggleTaskStatus( selectedList.value.id, props.task.id )
 
-const removeTask = () => {
-  store.dispatch( 'removeTask', {
-    listId: selectedList.value.id,
-    taskId: props.task.id,
-  })
-}
+const removeTask = () =>
+  store.mutations.removeTask( selectedList.value.id, props.task.id )
 </script>
 
 <style scoped lang="scss">

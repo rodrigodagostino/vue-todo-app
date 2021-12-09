@@ -20,7 +20,8 @@
           <li
             class="list-item"
             :class="{
-              'is-active': selectedList && element.id === selectedList.id,
+              'is-active':
+                selectedListData && element.id === selectedListData.id,
             }"
             @click="selectList(element.id)"
           >
@@ -43,7 +44,11 @@
         </template>
       </draggable>
       <form @submit.prevent="addList" class="list-add">
-        <input type="text" v-model.trim="newList" class="list-add__input" />
+        <input
+          type="text"
+          v-model.trim="newListTitle"
+          class="list-add__input"
+        />
         <BaseButton
           type="submit"
           iconClasses="fas fa-plus"
@@ -57,34 +62,27 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useStore } from 'vuex'
+import store from '@/store'
 import draggable from 'vuedraggable'
 import BaseButton from './BaseButton.vue'
 
-const store = useStore()
-
 const listsData = computed({
-  get: () => store.getters.listsData,
-  set: rearrangedData =>
-    store.commit( 'setListsData', { newListsData: rearrangedData }),
+  get: () => store.state.listsData,
+  set: reorderedData => store.mutations.setListsData( reorderedData ),
 })
-const selectedList = computed( () => store.getters.selectedList )
-const newList = ref( '' )
+const selectedListData = computed( () => store.getters.selectedListData() )
+const newListTitle = ref( '' )
 
-const selectList = listId => {
-  store.dispatch( 'selectList', { listId })
-}
+const selectList = listId => store.mutations.setSelectedList( listId )
 
 const addList = () => {
-  if ( newList.value !== '' ) {
-    store.dispatch( 'addList', {
-      newList: {
-        id: new Date().getTime(),
-        title: newList.value,
-        tasks: [],
-      },
+  if ( newListTitle.value !== '' ) {
+    store.mutations.addList({
+      id: new Date().getTime(),
+      title: newListTitle.value,
+      tasks: [],
     })
-    newList.value = ''
+    newListTitle.value = ''
   }
 }
 </script>

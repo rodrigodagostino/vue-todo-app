@@ -19,7 +19,7 @@
         appear
         mode="out-in"
       >
-        <TaskList v-if="selectedList" :key="selectedList.id" />
+        <TaskList v-if="selectedListData" :key="selectedListData.id" />
       </transition>
     </div>
   </main>
@@ -38,13 +38,11 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useStore } from 'vuex'
+import store from '@/store'
 import ListList from './components/ListList.vue'
 import TaskList from './components/TaskList.vue'
 
-const store = useStore()
-
-const selectedList = computed( () => store.getters.selectedList )
+const selectedListData = computed( () => store.getters.selectedListData() )
 </script>
 
 <style lang="scss">
