@@ -1,17 +1,6 @@
 <template>
   <li class="task-item" :class="{ 'task-item--done': task.isDone }">
-    <svg
-      class="task-item__handle"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      role="img"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path
-        d="M9.75 15a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zm4.5 0a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zm-4.5-4.131a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zm4.5 0a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zM9.75 6.5a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zm4.5 0a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5z"
-      />
-    </svg>
+    <BaseSVG name="handle" class="task-item__handle" />
     <input
       type="checkbox"
       :id="task.id"
@@ -31,24 +20,24 @@
     </label>
     <div v-if="isTaskBeingEdited" class="task-item__actions">
       <BaseButton
-        iconClasses="fas fa-check"
+        iconClass="fas fa-check"
         variation="text-neutral"
         @click="confirmEditTaskChanges"
       />
       <BaseButton
-        iconClasses="fas fa-times"
+        iconClass="fas fa-times"
         variation="text-neutral"
         @click="cancelEditTaskChanges"
       />
     </div>
     <div v-if="!isTaskBeingEdited" class="task-item__actions">
       <BaseButton
-        iconClasses="fas fa-pen"
+        iconClass="fas fa-pen"
         variation="text-neutral"
         @click="editTask"
       />
       <BaseButton
-        iconClasses="fas fa-trash"
+        iconClass="fas fa-trash"
         variation="text-neutral"
         @click="removeTask"
       />
@@ -60,6 +49,7 @@
 import { ref, computed } from 'vue'
 import store from '@/store'
 import BaseButton from '@/components/BaseButton.vue'
+import BaseSVG from './BaseSVG.vue'
 
 const props = defineProps({
   task: Object,

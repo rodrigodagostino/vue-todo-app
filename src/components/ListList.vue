@@ -25,18 +25,7 @@
             }"
             @click="selectList(element.id)"
           >
-            <svg
-              class="list-item__handle"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              role="img"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <path
-                d="M9.75 15a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zm4.5 0a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zm-4.5-4.131a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zm4.5 0a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zM9.75 6.5a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zm4.5 0a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5z"
-              />
-            </svg>
+            <BaseSVG name="handle" class="list-item__handle" />
             <span class="list-item__label">
               {{ element.title }}
             </span>
@@ -51,7 +40,7 @@
         />
         <BaseButton
           type="submit"
-          iconClasses="fas fa-plus"
+          iconClass="fas fa-plus"
           variation="text-dark"
           @click="addList"
         />
@@ -65,6 +54,7 @@ import { ref, computed } from 'vue'
 import store from '@/store'
 import draggable from 'vuedraggable'
 import BaseButton from './BaseButton.vue'
+import BaseSVG from './BaseSVG.vue'
 
 const listsData = computed({
   get: () => store.state.listsData,

@@ -12,24 +12,24 @@
         </h2>
         <div v-if="isListBeingEdited" class="tasks-header__actions">
           <BaseButton
-            iconClasses="fas fa-check"
+            iconClass="fas fa-check"
             variation="text-neutral"
             @click="confirmEditListChanges"
           />
           <BaseButton
-            iconClasses="fas fa-times"
+            iconClass="fas fa-times"
             variation="text-neutral"
             @click="cancelEditListChanges"
           />
         </div>
         <div v-if="!isListBeingEdited" class="tasks-header__actions">
           <BaseButton
-            iconClasses="fas fa-pen"
+            iconClass="fas fa-pen"
             variation="text-neutral"
             @click="editListTitle"
           />
           <BaseButton
-            iconClasses="fas fa-trash"
+            iconClass="fas fa-trash"
             variation="text-neutral"
             @click="removeList"
           />
@@ -68,7 +68,7 @@
         <input type="text" class="task-add__input" v-model="newTaskTitle" />
         <BaseButton
           type="submit"
-          iconClasses="fas fa-plus"
+          iconClass="fas fa-plus"
           variation="text-neutral"
         />
       </form>

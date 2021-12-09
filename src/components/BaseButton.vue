@@ -5,9 +5,9 @@
     :target="target"
     :type="computedType"
     class="button"
-    :class="buttonClasses"
+    :class="buttonClass"
   >
-    <i v-if="iconClasses" :class="iconClasses"></i>
+    <i v-if="iconClass" :class="iconClass"></i>
     <span v-if="$slots.default" :class="textClasses"><slot></slot></span>
   </component>
 </template>
@@ -39,7 +39,7 @@ const props = defineProps({
     required: false,
     default: null,
   },
-  iconClasses: {
+  iconClass: {
     type: String,
     required: false,
     default: null,
@@ -55,7 +55,7 @@ const tag = props.href ? 'a' : 'button'
 
 const computedType = props.type && !props.href ? 'button' : null
 
-const buttonClasses = {
+const buttonClass = {
   'button--fill-main': props.variation === 'fill-main',
   'button--fill-neutral': props.variation === 'fill-neutral',
   'button--outline-main': props.variation === 'outline-main',
