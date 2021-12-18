@@ -8,7 +8,7 @@ Deployed with [Netlify](https://v-to-do-app.netlify.app/).
 
 ## Potential future features
 
-- Allow the user to manually sort lists and tasks.
+- ~~Allow the user to manually sort lists and tasks.~~
 
 ## Project setup
 
