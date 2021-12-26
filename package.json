@@ -16,19 +16,18 @@
   "author": "Rodrigo D’Agostino <rodrigo.dagostino@protonmail.com> (https://www.rodrigodagostino.com/)",
   "license": "MIT",
   "dependencies": {
-    "vue": "3.2.6",
+    "vue": "3.2.26",
     "vuedraggable": "4.1.0"
   },
   "devDependencies": {
-    "@babel/core": "7.16.0",
-    "@babel/eslint-parser": "7.16.3",
-    "@vitejs/plugin-vue": "1.10.2",
-    "@vue/compiler-sfc": "3.2.24",
-    "eslint": "8.4.1",
+    "@babel/core": "7.16.5",
+    "@babel/eslint-parser": "7.16.5",
+    "@vitejs/plugin-vue": "2.0.1",
+    "eslint": "8.5.0",
     "eslint-plugin-vue": "8.2.0",
     "prettier": "2.5.1",
-    "sass": "1.44.0",
+    "sass": "1.45.1",
     "sass-loader": "12.4.0",
-    "vite": "2.7.1"
+    "vite": "2.7.6"
   }
 }
