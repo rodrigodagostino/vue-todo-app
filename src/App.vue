@@ -1,3 +1,12 @@
+<script setup>
+import { computed } from 'vue'
+import store from '@/store'
+import ListList from './components/ListList.vue'
+import TaskList from './components/TaskList.vue'
+
+const selectedListData = computed(() => store.getters.selectedListData())
+</script>
+
 <template>
   <header class="site-header">
     <div class="container">
@@ -35,15 +44,6 @@
     </div>
   </footer>
 </template>
-
-<script setup>
-import { computed } from 'vue'
-import store from '@/store'
-import ListList from './components/ListList.vue'
-import TaskList from './components/TaskList.vue'
-
-const selectedListData = computed( () => store.getters.selectedListData() )
-</script>
 
 <style lang="scss">
 /**

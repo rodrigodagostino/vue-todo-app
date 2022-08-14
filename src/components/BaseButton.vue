@@ -1,17 +1,3 @@
-<template>
-  <component
-    :is="tag"
-    :href="href"
-    :target="target"
-    :type="computedType"
-    class="button"
-    :class="buttonClass"
-  >
-    <i v-if="iconClass" :class="iconClass"></i>
-    <span v-if="$slots.default" :class="textClasses"><slot></slot></span>
-  </component>
-</template>
-
 <script setup>
 const props = defineProps({
   href: {
@@ -68,6 +54,20 @@ const buttonClass = {
   'button--large': props.size === 'large',
 }
 </script>
+
+<template>
+  <component
+    :is="tag"
+    :href="href"
+    :target="target"
+    :type="computedType"
+    class="button"
+    :class="buttonClass"
+  >
+    <i v-if="iconClass" :class="iconClass"></i>
+    <span v-if="$slots.default" :class="textClasses"><slot></slot></span>
+  </component>
+</template>
 
 <style scoped>
 .button {

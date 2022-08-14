@@ -1,7 +1,21 @@
+<script setup>
+defineProps({
+  name: {
+    type: String,
+    required: true,
+  },
+  classes: {
+    type: String,
+    default: 'handle',
+    required: false,
+  },
+})
+</script>
+
 <template>
   <svg
     v-if="name === 'handle'"
-    :class="class"
+    :class="classes"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     role="img"
@@ -13,16 +27,3 @@
     />
   </svg>
 </template>
-
-<script setup>
-defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
-  class: {
-    type: String,
-    required: false,
-  },
-})
-</script>

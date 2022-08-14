@@ -1,7 +1,36 @@
+<script setup>
+import { ref, computed } from 'vue'
+import store from '@/store'
+import draggable from 'vuedraggable'
+import BaseButton from './BaseButton.vue'
+import BaseSVG from './BaseSVG.vue'
+
+const listsData = computed({
+  get: () => store.state.listsData,
+  set: (reorderedData) => store.mutations.setListsData(reorderedData),
+})
+const selectedListData = computed(() => store.getters.selectedListData())
+const newListTitle = ref('')
+
+const selectList = (listId) => store.mutations.setSelectedList(listId)
+
+const addList = () => {
+  if (newListTitle.value !== '') {
+    store.mutations.addList({
+      id: new Date().getTime(),
+      title: newListTitle.value,
+      tasks: [],
+    })
+    newListTitle.value = ''
+  }
+}
+</script>
+
 <template>
   <section class="lists-section">
     <div class="lists-content">
       <draggable
+        v-model="listsData"
         class="list-list"
         ghost-class="list-item--ghost"
         handle=".list-item__handle"
@@ -13,7 +42,6 @@
           leaveActiveClass: 'fade-leave-active',
         }"
         animation="200"
-        v-model="listsData"
         item-key="id"
       >
         <template #item="{ element }">
@@ -25,22 +53,22 @@
             }"
             @click="selectList(element.id)"
           >
-            <BaseSVG name="handle" class="list-item__handle" />
+            <BaseSVG name="handle" classes="list-item__handle" />
             <span class="list-item__label">
               {{ element.title }}
             </span>
           </li>
         </template>
       </draggable>
-      <form @submit.prevent="addList" class="list-add">
+      <form class="list-add" @submit.prevent="addList">
         <input
-          type="text"
           v-model.trim="newListTitle"
+          type="text"
           class="list-add__input"
         />
         <BaseButton
           type="submit"
-          iconClass="fas fa-plus"
+          icon-class="fas fa-plus"
           variation="text-dark"
           @click="addList"
         />
@@ -48,34 +76,6 @@
     </div>
   </section>
 </template>
-
-<script setup>
-import { ref, computed } from 'vue'
-import store from '@/store'
-import draggable from 'vuedraggable'
-import BaseButton from './BaseButton.vue'
-import BaseSVG from './BaseSVG.vue'
-
-const listsData = computed({
-  get: () => store.state.listsData,
-  set: reorderedData => store.mutations.setListsData( reorderedData ),
-})
-const selectedListData = computed( () => store.getters.selectedListData() )
-const newListTitle = ref( '' )
-
-const selectList = listId => store.mutations.setSelectedList( listId )
-
-const addList = () => {
-  if ( newListTitle.value !== '' ) {
-    store.mutations.addList({
-      id: new Date().getTime(),
-      title: newListTitle.value,
-      tasks: [],
-    })
-    newListTitle.value = ''
-  }
-}
-</script>
 
 <style scoped lang="scss">
 .lists-section {

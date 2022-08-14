@@ -1,50 +1,3 @@
-<template>
-  <li class="task-item" :class="{ 'task-item--done': task.isDone }">
-    <BaseSVG name="handle" class="task-item__handle" />
-    <input
-      type="checkbox"
-      :id="task.id"
-      :checked="task.isDone"
-      @click="toggleTaskStatus"
-      class="task-item__checkbox"
-      ref="checkbox"
-    />
-    <label
-      :for="task.id"
-      class="task-item__label"
-      ref="label"
-      @keydown.enter="confirmEditTaskChanges"
-      @keydown.escape="cancelEditTaskChanges"
-    >
-      {{ task.title }}
-    </label>
-    <div v-if="isTaskBeingEdited" class="task-item__actions">
-      <BaseButton
-        iconClass="fas fa-check"
-        variation="text-neutral"
-        @click="confirmEditTaskChanges"
-      />
-      <BaseButton
-        iconClass="fas fa-times"
-        variation="text-neutral"
-        @click="cancelEditTaskChanges"
-      />
-    </div>
-    <div v-if="!isTaskBeingEdited" class="task-item__actions">
-      <BaseButton
-        iconClass="fas fa-pen"
-        variation="text-neutral"
-        @click="editTask"
-      />
-      <BaseButton
-        iconClass="fas fa-trash"
-        variation="text-neutral"
-        @click="removeTask"
-      />
-    </div>
-  </li>
-</template>
-
 <script setup>
 import { ref, computed } from 'vue'
 import store from '@/store'
@@ -52,21 +5,27 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseSVG from './BaseSVG.vue'
 
 const props = defineProps({
-  task: Object,
-  index: Number,
+  task: {
+    type: Object,
+    default: () => {},
+  },
+  index: {
+    type: Number,
+    default: 0,
+  },
 })
 
-const selectedList = computed( () => store.getters.selectedListData() )
-const label = ref( null )
+const selectedList = computed(() => store.getters.selectedListData())
+const label = ref(null)
 let labelPrevContent = null
-const checkbox = ref( null )
-const isTaskBeingEdited = ref( false )
+const checkbox = ref(null)
+const isTaskBeingEdited = ref(false)
 
 const editTask = () => {
   labelPrevContent = label.value.textContent
   isTaskBeingEdited.value = true
-  checkbox.value.setAttribute( 'disabled', true )
-  label.value.setAttribute( 'contenteditable', true )
+  checkbox.value.setAttribute('disabled', true)
+  label.value.setAttribute('contenteditable', true)
   label.value.focus()
 }
 
@@ -75,25 +34,72 @@ const confirmEditTaskChanges = () => {
   store.mutations.editTask(
     selectedList.value.id,
     props.task.id,
-    label.value.textContent,
+    label.value.textContent
   )
-  checkbox.value.removeAttribute( 'disabled' )
-  label.value.removeAttribute( 'contenteditable' )
+  checkbox.value.removeAttribute('disabled')
+  label.value.removeAttribute('contenteditable')
 }
 
 const cancelEditTaskChanges = () => {
   isTaskBeingEdited.value = false
   label.value.textContent = labelPrevContent
-  checkbox.value.removeAttribute( 'disabled' )
-  label.value.removeAttribute( 'contenteditable' )
+  checkbox.value.removeAttribute('disabled')
+  label.value.removeAttribute('contenteditable')
 }
 
 const toggleTaskStatus = () =>
-  store.mutations.toggleTaskStatus( selectedList.value.id, props.task.id )
+  store.mutations.toggleTaskStatus(selectedList.value.id, props.task.id)
 
 const removeTask = () =>
-  store.mutations.removeTask( selectedList.value.id, props.task.id )
+  store.mutations.removeTask(selectedList.value.id, props.task.id)
 </script>
+
+<template>
+  <li class="task-item" :class="{ 'task-item--done': task.isDone }">
+    <BaseSVG name="handle" classes="task-item__handle" />
+    <input
+      :id="task.id"
+      ref="checkbox"
+      type="checkbox"
+      :checked="task.isDone"
+      class="task-item__checkbox"
+      @click="toggleTaskStatus"
+    />
+    <label
+      ref="label"
+      :for="task.id"
+      class="task-item__label"
+      @keydown.enter="confirmEditTaskChanges"
+      @keydown.escape="cancelEditTaskChanges"
+    >
+      {{ task.title }}
+    </label>
+    <div v-if="isTaskBeingEdited" class="task-item__actions">
+      <BaseButton
+        icon-class="fas fa-check"
+        variation="text-neutral"
+        @click="confirmEditTaskChanges"
+      />
+      <BaseButton
+        icon-class="fas fa-times"
+        variation="text-neutral"
+        @click="cancelEditTaskChanges"
+      />
+    </div>
+    <div v-if="!isTaskBeingEdited" class="task-item__actions">
+      <BaseButton
+        icon-class="fas fa-pen"
+        variation="text-neutral"
+        @click="editTask"
+      />
+      <BaseButton
+        icon-class="fas fa-trash"
+        variation="text-neutral"
+        @click="removeTask"
+      />
+    </div>
+  </li>
+</template>
 
 <style scoped lang="scss">
 .task-item {

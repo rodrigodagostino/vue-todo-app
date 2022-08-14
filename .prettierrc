@@ -1,23 +1,14 @@
 {
+  "bracketSpacing": true,
   "printWidth": 80,
-  "tabWidth": 2,
-  "useTabs": false,
   "semi": false,
   "singleQuote": true,
-  "bracketSpacing": true,
+  "tabWidth": 2,
   "trailingComma": "es5",
-  "jsxSingleQuote": true,
-  "jsxBracketSameLine": false,
-  "arrowParens": "always",
+  "useTabs": false,
   "overrides": [
     {
-      "files": ["*.json"],
-      "options": {
-        "singleQuote": false
-      }
-    },
-    {
-      "files": ["*.scss", "*.css"],
+      "files": ["*.json", "*.scss", "*.css"],
       "options": {
         "singleQuote": false
       }
