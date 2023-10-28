@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import store from '@/store'
-import draggable from 'vuedraggable'
+import { VueDraggable } from 'vue-draggable-plus'
 import BaseButton from './BaseButton.vue'
 import TaskListItem from './TaskListItem.vue'
 
@@ -102,26 +102,22 @@ const addTask = () => {
     </header>
 
     <div class="tasks-content">
-      <draggable
+      <VueDraggable
         v-model="selectedListData.tasks"
         class="task-list"
+        animation="200"
+        chosen-class="task-item--chosen"
+        drag-class="task-item--drag"
         ghost-class="task-item--ghost"
         handle=".task-item__handle"
-        tag="transition-group"
-        :component-data="{
-          tag: 'ul',
-          type: 'transition-group',
-          name: 'fade-slide-up',
-          leaveActiveClass: 'fade-leave-active',
-        }"
-        animation="200"
-        item-key="id"
         @end="confirmEditListChanges"
       >
-        <template #item="{ element }">
-          <TaskListItem :task="element" />
-        </template>
-      </draggable>
+        <TaskListItem
+          v-for="task in selectedListData.tasks"
+          :key="task.id"
+          :task="task"
+        />
+      </VueDraggable>
       <form class="task-add" @submit.prevent="addTask">
         <input v-model="newTaskTitle" type="text" class="task-add__input" />
         <BaseButton

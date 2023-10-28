@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import store from '@/store'
-import draggable from 'vuedraggable'
+import { VueDraggable } from 'vue-draggable-plus'
 import BaseButton from './BaseButton.vue'
 import BaseSVG from './BaseSVG.vue'
 
@@ -29,37 +29,30 @@ const addList = () => {
 <template>
   <section class="lists-section">
     <div class="lists-content">
-      <draggable
+      <VueDraggable
         v-model="listsData"
         class="list-list"
+        animation="200"
+        chosen-class="list-item--chosen"
+        drag-class="list-item--drag"
         ghost-class="list-item--ghost"
         handle=".list-item__handle"
-        tag="transition-group"
-        :component-data="{
-          tag: 'ul',
-          type: 'transition-group',
-          name: 'fade-slide-up',
-          leaveActiveClass: 'fade-leave-active',
-        }"
-        animation="200"
-        item-key="id"
       >
-        <template #item="{ element }">
-          <li
-            class="list-item"
-            :class="{
-              'is-active':
-                selectedListData && element.id === selectedListData.id,
-            }"
-            @click="selectList(element.id)"
-          >
-            <BaseSVG name="handle" classes="list-item__handle" />
-            <span class="list-item__label">
-              {{ element.title }}
-            </span>
-          </li>
-        </template>
-      </draggable>
+        <li
+          v-for="list in listsData"
+          :key="list.id"
+          class="list-item"
+          :class="{
+            'is-active': selectedListData && list.id === selectedListData.id,
+          }"
+          @click="selectList(list.id)"
+        >
+          <BaseSVG name="handle" classes="list-item__handle" />
+          <span class="list-item__label">
+            {{ list.title }}
+          </span>
+        </li>
+      </VueDraggable>
       <form class="list-add" @submit.prevent="addList">
         <input
           v-model.trim="newListTitle"
@@ -102,7 +95,11 @@ const addList = () => {
     padding: 1rem;
   }
 
-  &.task-item--ghost {
+  &.list-item--drag {
+    opacity: 0;
+  }
+
+  &.task-item--chosen {
     background-color: var(--gray-100);
   }
 }

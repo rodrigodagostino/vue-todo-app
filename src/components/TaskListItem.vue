@@ -108,8 +108,12 @@ const removeTask = () =>
   padding: 0.25rem 0;
   border-bottom: 1px solid var(--gray-200);
 
-  &.task-item--ghost {
+  &.task-item--chosen {
     background-color: var(--gray-100);
+  }
+
+  &.task-item--drag {
+    opacity: 0;
   }
 }
 
